@@ -1,8 +1,45 @@
 ---
 - hosts: all
-  gather_facts: false
+  gather_facts: no
   tasks:
     - name: refresh package
       raw: apt-get -y update
     - name: install python
       raw: apt-get -y install python
+
+- hosts: all
+  tasks:
+    - name: Install default packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - htop
+        - iotop
+        - vim
+        - git
+        - ruby
+        - vim-nox #vim-ruby
+    - name: Get vim modules and configuration source
+      git:
+        repo: https://github.com/madef/vim.git
+        dest: /root/vim
+        force: yes
+        recursive: yes
+    - name: Remove vim directory
+      file:
+        dest: /root/.vim
+        state: absent
+        force: yes
+    - name: Set vim configuration directory
+      file:
+        src: /root/vim/vim
+        dest: /root/.vim
+        state: link
+        force: yes
+    - name: Set vimrc
+      file:
+        src: /root/vim/vimrc
+        dest: /root/.vimrc
+        state: link
+        force: yes

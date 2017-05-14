@@ -1,0 +1,7 @@
+---
+- hosts: sql
+  tasks:
+    - name: install mysql
+      apt:
+        name: mariadb-server
+        update_cache: yes
