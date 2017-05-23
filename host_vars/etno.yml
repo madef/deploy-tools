@@ -2,35 +2,41 @@
 ansible_user: root
 ansible_host: etno.madef.fr
 
-vhosts:
+apache_vhosts:
   prestashop:
     - name: advancedimporter
-    domain: advancedimporter.prestashop.demo.madef.fr
-    is_demo: yes
-    modules:
-      - advancedimporter
+      domain: advancedimporter.prestashop.demo.madef.fr
+      is_demo: yes
+      version: 1.6.1.13
+      modules:
+        - advancedimporter
     - name: advancedrelatedproduct
-    domain: advancedrelatedproduct.prestashop.demo.madef.fr
-    is_demo: yes
-    modules:
-      - advancedrelatedproduct
+      domain: advancedrelatedproduct.prestashop.demo.madef.fr
+      version: 1.6.1.13
+      is_demo: yes
+      modules:
+        - advancedrelatedproduct
     - name: responsivemenu
-    domain: responsivemenu.prestashop.demo.madef.fr
-    is_demo: yes
-    modules:
-      - responsivemenu
+      domain: responsivemenu.prestashop.demo.madef.fr
+      version: 1.6.1.13
+      is_demo: yes
+      modules:
+        - responsivemenu
     - name: prestapicto
-    domain: prestapicto.prestashop.demo.madef.fr
-    is_demo: yes
-    modules:
-      - prestapicto
+      domain: prestapicto.prestashop.demo.madef.fr
+      version: 1.6.1.13
+      is_demo: yes
+      modules:
+        - prestapicto
     - name: prestapress
-    domain: prestapress.prestashop.demo.madef.fr
-    is_demo: yes
-    modules:
-      - prestapress
+      domain: prestapress.prestashop.demo.madef.fr
+      version: 1.6.1.13
+      is_demo: yes
+      modules:
+        - prestapress
     - name: blog
-    domain: blog.deflotte.fr
-    is_demo: no
-    modules:
-      - prestapress
+      domain: blog.deflotte.fr
+      version: 1.6.1.13
+      is_demo: no
+      modules:
+        - prestapress

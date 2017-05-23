@@ -1,0 +1,8 @@
+---
+- name: prestashop - get sources
+  git:
+    repo: https://github.com/PrestaShop/PrestaShop.git
+    dest: "/var/www/{{ item.name }}"
+    version: "{{ item.version }}"
+    accept_hostkey: yes
+  with_items: "{{ apache_vhosts.prestashop }}"
