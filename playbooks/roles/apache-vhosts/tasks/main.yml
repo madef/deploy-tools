@@ -5,6 +5,11 @@
     dest: "/etc/apache2/sites-available/{{ item.domain }}.conf"
   with_items: "{{ apache_vhosts.prestashop }}"
 
+- name: apache-vhosts - remove default vhost
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+
 - name: apache-vhosts - active vhost
   file:
     src: "/etc/apache2/sites-available/{{ item.domain }}.conf"
