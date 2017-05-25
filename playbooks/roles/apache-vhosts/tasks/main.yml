@@ -1,12 +1,4 @@
 ---
-- name: apache-vhosts - enable modules
-  apache2_module:
-    state: present
-    name: "{{ item }}"
-  with_items:
-    - ssl
-    - rewrite
-
 - name: apache-vhosts - create vhost
   template:
     src: prestashop-vhost.j2
@@ -19,6 +11,14 @@
     dest: "/etc/apache2/sites-enabled/{{ item.domain }}.conf"
     state: link
   with_items: "{{ apache_vhosts.prestashop }}"
+
+- name: apache-vhosts - enable modules
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - ssl
+    - rewrite
 
 - name: apache-vhosts - be sure apache is started
   service:

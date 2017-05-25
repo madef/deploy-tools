@@ -5,3 +5,25 @@
       apt:
         name: mariadb-server
         update_cache: yes
+    - name: allow external connection
+      lineinfile:
+        dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+        regexp: '^bind-address'
+        line: '#bind-address = 127.0.0.1'
+    - name: create users
+      mysql_user:
+        host: "{{ item.host }}"
+        name: "{{ item.user }}"
+        password: "{{ item.password }}"
+        priv: "{{ item.name }}.*:ALL"
+        state: present
+      with_items: "{{ databases }}"
+    - name: create databases
+      mysql_db:
+        name: "{{ item.name }}"
+        state: present
+      with_items: "{{ databases }}"
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted

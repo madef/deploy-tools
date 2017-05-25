@@ -1,42 +1,67 @@
 ---
 ansible_user: root
-ansible_host: etno.madef.fr
+ansible_host: 37.187.55.118 #etno.madef.fr
 
 apache_vhosts:
   prestashop:
+    - name: blog
+      domain: blog.madef.fr
+      version: 1.6.1.13
+      is_demo: no
+      modules:
+        - prestapress
+      mysql:
+        user: ps_blog
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
     - name: advancedimporter
       domain: advancedimporter.prestashop.demo.madef.fr
       is_demo: yes
       version: 1.6.1.13
       modules:
         - advancedimporter
+      mysql:
+        user: ps_advancedimporter
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
+  demo:
     - name: advancedrelatedproduct
       domain: advancedrelatedproduct.prestashop.demo.madef.fr
       version: 1.6.1.13
       is_demo: yes
       modules:
         - advancedrelatedproduct
+      mysql:
+        user: ps_advancedrelatedproduct
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
     - name: responsivemenu
       domain: responsivemenu.prestashop.demo.madef.fr
       version: 1.6.1.13
       is_demo: yes
       modules:
         - responsivemenu
+      mysql:
+        user: ps_responsivemenu
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
     - name: prestapicto
       domain: prestapicto.prestashop.demo.madef.fr
       version: 1.6.1.13
       is_demo: yes
       modules:
         - prestapicto
+      mysql:
+        user: ps_prestapicto
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
     - name: prestapress
       domain: prestapress.prestashop.demo.madef.fr
       version: 1.6.1.13
       is_demo: yes
       modules:
         - prestapress
-    - name: blog
-      domain: blog.deflotte.fr
-      version: 1.6.1.13
-      is_demo: no
-      modules:
-        - prestapress
+      mysql:
+        user: ps_prestapress
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt

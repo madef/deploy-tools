@@ -20,6 +20,7 @@
         - git
         - ruby
         - vim-nox #vim-ruby
+        - mysql-client
     - name: Get vim modules and configuration source
       git:
         repo: https://github.com/madef/vim.git
@@ -43,3 +44,12 @@
         dest: /root/.vimrc
         state: link
         force: yes
+
+- hosts: sql
+  tasks:
+    - name: Install default packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - python-mysqldb

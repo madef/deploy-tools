@@ -1,20 +1,33 @@
 <VirtualHost *:80>
     ServerName {{ item.domain }}
     DocumentRoot /var/www/{{ item.name }}
-    SSLEngine on
     <Directory /var/www/{{ item.name }}>
         AllowOverride All
         Options Indexes FollowSymLinks MultiViews
     </Directory>
+    <Directory /var/www/{{ item.name }}/install-dev>
+        Order allow,deny
+        Deny from all
+    </Directory>
+
     RewriteEngine on
+
+    CustomLog /var/log/apache2/access.{{ item.domain }}.log combined
+    ErrorLog /var/log/apache2/error.{{ item.domain }}.log
 </VirtualHost>
 <VirtualHost *:443>
     ServerName {{ item.domain }}
     DocumentRoot /var/www/{{ item.name }}
-    SSLEngine on
     <Directory /var/www/{{ item.name }}>
         AllowOverride All
         Options Indexes FollowSymLinks MultiViews
     </Directory>
+    <Directory /var/www/{{ item.name }}/install-dev>
+        Order allow,deny
+        Deny from all
+    </Directory>
     RewriteEngine on
+
+    CustomLog /var/log/apache2/access.{{ item.domain }}.log combined
+    ErrorLog /var/log/apache2/error.{{ item.domain }}.log
 </VirtualHost>

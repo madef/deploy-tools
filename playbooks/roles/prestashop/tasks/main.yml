@@ -5,4 +5,32 @@
     dest: "/var/www/{{ item.name }}"
     version: "{{ item.version }}"
     accept_hostkey: yes
+    force: yes
   with_items: "{{ apache_vhosts.prestashop }}"
+
+- name: prestashop - get module sources
+  git:
+    repo: "git@github.com:madef/{{ item.1 }}.git"
+    dest: "/var/www/{{ item.0.name }}/modules/{{ item.1 }}"
+    accept_hostkey: yes
+    force: yes
+  with_subelements:
+    - "{{ apache_vhosts.prestashop}}"
+    - modules
+
+- name: change owner
+  command: "chown -R www-data:www-data /var/www/{{ item.name }}"
+  with_items: "{{ apache_vhosts.prestashop }}"
+
+- name: get settings.inc.php exists
+  stat:
+    path: "/var/www/{{ item.name }}/config/settings.inc.php"
+  register: file
+  with_items: "{{ apache_vhosts.prestashop }}"
+
+- name: prestashop - install prestashop
+  shell: |
+    cd /var/www/{{ item.item.name }}
+    php install-dev/index_cli.php --domain={{ item.item.domain }} --db_server={{ item.item.mysql.host }} --db_name=ps_{{ item.item.name }} --db_user={{ item.item.mysql.user }} --db_password={{ item.item.mysql.password }} --email=admin@madef.fr --password=test00test --firstname=admin --lastname=admin --newsletter=0
+  with_items: "{{ file.results }}"
+  when: item.item.is_demo or item.stat.exists == False
