@@ -18,6 +18,14 @@
     - "{{ apache_vhosts.prestashop}}"
     - modules
 
+- name: prestashop - get admin-tools
+  git:
+    repo: git@github.com:madef/ps-admin-tools.git
+    dest: "/var/www/{{ item.name }}/admin-tools"
+    version: "{{ item.version }}"
+    accept_hostkey: yes
+    force: yes
+
 - name: change owner
   command: "chown -R www-data:www-data /var/www/{{ item.name }}"
   with_items: "{{ apache_vhosts.prestashop }}"
@@ -34,3 +42,20 @@
     php install-dev/index_cli.php --domain={{ item.item.domain }} --db_server={{ item.item.mysql.host }} --db_name=ps_{{ item.item.name }} --db_user={{ item.item.mysql.user }} --db_password={{ item.item.mysql.password }} --email=admin@madef.fr --password=test00test --firstname=admin --lastname=admin --newsletter=0
   with_items: "{{ file.results }}"
   when: item.item.is_demo or item.stat.exists == False
+
+- name: prestashop - install modules
+  command: "/var/www/{{ item.0.name }}/admin-tools/console.php module:install {{ item.1 }"
+  with_subelements:
+    - "{{ apache_vhosts.prestashop}}"
+    - modules
+
+- name: prestashop - upgrade modules
+  command: "/var/www/{{ item.0.name }}/admin-tools/console.php module:upgrade {{ item.1 }"
+  with_subelements:
+    - "{{ apache_vhosts.prestashop}}"
+    - modules
+
+- name: prestashop - create demo user
+  command: "/var/www/{{ item.name }}/admin-tools/console.php employee:create -l demo -f demo -p demo00demo -e demo@demo.fr"
+  with_items:
+    - "{{ apache_vhosts.prestashop}}"
