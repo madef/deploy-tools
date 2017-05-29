@@ -22,9 +22,9 @@
   git:
     repo: git@github.com:madef/ps-admin-tools.git
     dest: "/var/www/{{ item.name }}/admin-tools"
-    version: "{{ item.version }}"
     accept_hostkey: yes
     force: yes
+  with_items: "{{ apache_vhosts.prestashop }}"
 
 - name: change owner
   command: "chown -R www-data:www-data /var/www/{{ item.name }}"
@@ -44,18 +44,46 @@
   when: item.item.is_demo or item.stat.exists == False
 
 - name: prestashop - install modules
-  command: "/var/www/{{ item.0.name }}/admin-tools/console.php module:install {{ item.1 }"
+  command: "php /var/www/{{ item.0.name }}/admin-tools/console.php module:install -m {{ item.1 }}"
   with_subelements:
     - "{{ apache_vhosts.prestashop}}"
     - modules
 
 - name: prestashop - upgrade modules
-  command: "/var/www/{{ item.0.name }}/admin-tools/console.php module:upgrade {{ item.1 }"
+  command: "php /var/www/{{ item.0.name }}/admin-tools/console.php module:upgrade -m {{ item.1 }}"
   with_subelements:
     - "{{ apache_vhosts.prestashop}}"
     - modules
 
-- name: prestashop - create demo user
-  command: "/var/www/{{ item.name }}/admin-tools/console.php employee:create -l demo -f demo -p demo00demo -e demo@demo.fr"
+- name: prestashop - create demo profile
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php profile:create -n demo"
   with_items:
     - "{{ apache_vhosts.prestashop}}"
+  when: item.is_demo
+
+- name: prestashop - create demo user
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php employee:create -l demo -f demo -p demo00demo -e demo@demo.com -P demo -L en"
+  with_items:
+    - "{{ apache_vhosts.prestashop}}"
+  when: item.is_demo
+
+- name: prestashop - set demo right (display, add, remove, edit)
+  command: "php /var/www/{{ item[0].name }}/admin-tools/console.php profile:access -p demo -t {{ item[1] }} -d -a -e -r"
+  with_nested:
+    - "{{ apache_vhosts.prestashop}}"
+    - [ 'AdminCatalog', 'AdminProducts', 'AdminCategories', 'AdminFeatures', 'AdminManufacturers', 'AdminSuppliers', 'AdminTags', 'AdminAttachments', 'AdminModulesPositions']
+  when: item.0.is_demo
+
+- name: prestashop - set demo right (display)
+  command: "php /var/www/{{ item[0].name }}/admin-tools/console.php profile:access -p demo -t {{ item[1] }} -d"
+  with_nested:
+    - "{{ apache_vhosts.prestashop}}"
+    - [ 'AdminParentModules', 'AdminModules']
+  when: item.0.is_demo
+
+- name: prestashop - set demo right for module (display, edit)
+  command: "php /var/www/{{ item[0].name }}/admin-tools/console.php profile:access -p demo -t {{ item[1] }} -d -e"
+  with_subelements:
+    - "{{ apache_vhosts.prestashop}}"
+    - modules
+  when: item.0.is_demo

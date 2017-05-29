@@ -1,21 +1,42 @@
 ---
-- name: apache-vhosts - create vhost
-  template:
-    src: prestashop-vhost.j2
-    dest: "/etc/apache2/sites-available/{{ item.domain }}.conf"
-  with_items: "{{ apache_vhosts.prestashop }}"
-
 - name: apache-vhosts - remove default vhost
   file:
     path: /etc/apache2/sites-enabled/000-default.conf
     state: absent
 
-- name: apache-vhosts - active vhost
+- name: apache-vhosts - create prestashop vhost
+  template:
+    src: prestashop-vhost.j2
+    dest: "/etc/apache2/sites-available/{{ item.domain }}.conf"
+  with_items: "{{ apache_vhosts.prestashop }}"
+
+- name: apache-vhosts - create repository vhost
+  template:
+    src: repo-vhost.j2
+    dest: "/etc/apache2/sites-available/{{ item.domain }}.conf"
+  with_items: "{{ apache_vhosts.repo }}"
+
+- name: apache-vhosts - active prestashop vhost
   file:
     src: "/etc/apache2/sites-available/{{ item.domain }}.conf"
     dest: "/etc/apache2/sites-enabled/{{ item.domain }}.conf"
     state: link
   with_items: "{{ apache_vhosts.prestashop }}"
+
+- name: apache-vhosts - active repository vhost
+  file:
+    src: "/etc/apache2/sites-available/{{ item.domain }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item.domain }}.conf"
+    state: link
+  with_items: "{{ apache_vhosts.repo }}"
+
+- name: apache-vhosts - create repository main dir
+  file:
+    dest: "/var/www/{{ item.name }}"
+    owner: www-data
+    group: www-data
+    state: directory
+  with_items: "{{ apache_vhosts.repo }}"
 
 - name: apache-vhosts - enable modules
   apache2_module:

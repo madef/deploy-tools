@@ -7,8 +7,8 @@ databases:
     user: ps_advancedimporter
     password: test00test # Replace and crypt
     host: 37.187.55.118
-  - name: ps_advancedrelatedproduct
-    user: ps_advancedrelatedproduct
+  - name: ps_advancedrelatedproducts
+    user: ps_advancedrelatedproducts
     password: test00test # Replace and crypt
     host: 37.187.55.118
   - name: ps_responsivemenu

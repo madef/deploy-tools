@@ -3,6 +3,9 @@ ansible_user: root
 ansible_host: 37.187.55.118 #etno.madef.fr
 
 apache_vhosts:
+  repo:
+    - name: repo
+      domain: repo.madef.fr
   prestashop:
     - name: blog
       domain: blog.madef.fr
@@ -24,15 +27,15 @@ apache_vhosts:
         user: ps_advancedimporter
         host: 91.121.68.131
         password: test00test # has to be changed and crypt
-  demo:
-    - name: advancedrelatedproduct
+        #  demo:
+    - name: advancedrelatedproducts
       domain: advancedrelatedproduct.prestashop.demo.madef.fr
       version: 1.6.1.13
       is_demo: yes
       modules:
-        - advancedrelatedproduct
+        - advancedrelatedproducts
       mysql:
-        user: ps_advancedrelatedproduct
+        user: ps_advancedrelatedproducts
         host: 91.121.68.131
         password: test00test # has to be changed and crypt
     - name: responsivemenu
