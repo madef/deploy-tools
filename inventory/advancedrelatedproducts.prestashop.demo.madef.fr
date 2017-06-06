@@ -17,4 +17,3 @@ modules='["advancedrelatedproducts"]'
 mysql_host=91.121.68.131
 mysql_database=ps_advancedrelatedproducts
 mysql_user=ps_advancedrelatedproducts
-mysql_password=test00test

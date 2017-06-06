@@ -17,4 +17,3 @@ modules='["prestapicto"]'
 mysql_host=91.121.68.131
 mysql_database=ps_prestapicto
 mysql_user=ps_prestapicto
-mysql_password=test00test

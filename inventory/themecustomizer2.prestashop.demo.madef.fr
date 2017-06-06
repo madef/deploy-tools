@@ -17,4 +17,3 @@ modules='["themecustomizer2"]'
 mysql_host=91.121.68.131
 mysql_database=ps_themecustomizer2
 mysql_user=ps_themecustomizer2
-mysql_password=test00test

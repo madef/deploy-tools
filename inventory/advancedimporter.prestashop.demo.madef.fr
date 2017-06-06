@@ -17,4 +17,3 @@ modules='["advancedimporter"]'
 mysql_host=91.121.68.131
 mysql_database=ps_advancedimporter
 mysql_user=ps_advancedimporter
-mysql_password=test00test

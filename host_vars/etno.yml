@@ -16,7 +16,6 @@ apache_vhosts:
       mysql:
         user: ps_blog
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: advancedimporter
       domain: advancedimporter.prestashop.demo.madef.fr
       is_demo: yes
@@ -26,7 +25,6 @@ apache_vhosts:
       mysql:
         user: ps_advancedimporter
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: advancedrelatedproducts
       domain: advancedrelatedproducts.prestashop.demo.madef.fr
       version: 1.6.1.13
@@ -36,7 +34,6 @@ apache_vhosts:
       mysql:
         user: ps_advancedrelatedproducts
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: modalcrossselling
       domain: modalcrossselling.prestashop.demo.madef.fr
       version: 1.6.1.13
@@ -46,7 +43,6 @@ apache_vhosts:
       mysql:
         user: ps_modalcrossselling
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: responsivemenu
       domain: responsivemenu.prestashop.demo.madef.fr
       version: 1.6.1.13
@@ -56,7 +52,6 @@ apache_vhosts:
       mysql:
         user: ps_responsivemenu
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: themecustomizer2
       domain: themecustomizer2.prestashop.demo.madef.fr
       version: 1.6.1.13
@@ -66,7 +61,6 @@ apache_vhosts:
       mysql:
         user: ps_themecustomizer2
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: prestapicto
       domain: prestapicto.prestashop.demo.madef.fr
       version: 1.6.1.13
@@ -76,7 +70,6 @@ apache_vhosts:
       mysql:
         user: ps_prestapicto
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
     - name: prestapress
       domain: prestapress.prestashop.demo.madef.fr
       version: 1.6.1.13
@@ -86,4 +79,3 @@ apache_vhosts:
       mysql:
         user: ps_prestapress
         host: 91.121.68.131
-        password: test00test # has to be changed and crypt
