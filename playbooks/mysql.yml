@@ -12,8 +12,6 @@
         dest: /etc/mysql/mariadb.conf.d/50-server.cnf
         regexp: '^bind-address'
         line: '#bind-address = 127.0.0.1'
-    - debug:
-        msg: "{{ passwords[name]['mysql'] }}"
     - name: create users
       mysql_user:
         host: "{{ source_host_ip }}"
