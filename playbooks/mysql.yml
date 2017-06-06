@@ -1,5 +1,7 @@
 ---
 - hosts: sql
+  vars_files:
+    - vars/passwords.yml
   tasks:
     - name: install mysql
       apt:
@@ -14,7 +16,7 @@
       mysql_user:
         host: "{{ domain }}"
         name: "{{ mysql_user }}"
-        password: "{{ mysql_password }}"
+        password: "{{ passwords[name]['mysql'] }}"
         priv: "{{ mysql_database }}.*:ALL"
         state: present
     - name: create databases

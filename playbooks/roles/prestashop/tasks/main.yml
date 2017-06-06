@@ -35,7 +35,7 @@
 - name: prestashop - install prestashop
   shell: |
     cd /var/www/{{ name }}
-    php install-dev/index_cli.php --domain={{ domain }} --db_server={{ mysql_host }} --db_name={{ mysql_database }} --db_user={{ mysql_user }} --db_password={{ mysql_password }} --email=admin@madef.fr --password=test00test --firstname=admin --lastname=admin --newsletter=0
+    php install-dev/index_cli.php --domain={{ domain }} --db_server={{ mysql_host }} --db_name={{ mysql_database }} --db_user={{ mysql_user }} --db_password={{ passwords[name]['mysql'] }} --email=admin@madef.fr --password={{ passwords[name]['admin'] }} --firstname=admin --lastname=admin --newsletter=0
   when: is_demo == 'true' or file.stat.exists == False
   tags:
     - prestashop_install

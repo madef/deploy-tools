@@ -1,5 +1,7 @@
 ---
 - hosts: http
+  vars_files:
+    - vars/passwords.yml
   pre_tasks:
     - name: install apache
       apt:
