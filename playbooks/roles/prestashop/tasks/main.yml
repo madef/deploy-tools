@@ -7,6 +7,8 @@
     accept_hostkey: yes
     force: yes
   with_items: "{{ apache_vhosts.prestashop }}"
+  tags:
+    - prestashop_sources
 
 - name: prestashop - get module sources
   git:
@@ -42,6 +44,18 @@
     php install-dev/index_cli.php --domain={{ item.item.domain }} --db_server={{ item.item.mysql.host }} --db_name=ps_{{ item.item.name }} --db_user={{ item.item.mysql.user }} --db_password={{ item.item.mysql.password }} --email=admin@madef.fr --password=test00test --firstname=admin --lastname=admin --newsletter=0
   with_items: "{{ file.results }}"
   when: item.item.is_demo or item.stat.exists == False
+  tags:
+    - prestashop_install
+
+- name: prestashop - enable ssl
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php configuration:set -k PS_SSL_ENABLED -v 1"
+  with_items:
+    - "{{ apache_vhosts.prestashop}}"
+
+- name: prestashop - force ssl on all page
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php configuration:set -k PS_SSL_ENABLED_EVERYWHERE -v 1"
+  with_items:
+    - "{{ apache_vhosts.prestashop}}"
 
 - name: prestashop - install modules
   command: "php /var/www/{{ item.0.name }}/admin-tools/console.php module:install -m {{ item.1 }}"
@@ -62,7 +76,13 @@
   when: item.is_demo
 
 - name: prestashop - create demo user
-  command: "php /var/www/{{ item.name }}/admin-tools/console.php employee:create -l demo -f demo -p demo00demo -e demo@demo.com -P demo -L en"
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.com -P demo -L en"
+  with_items:
+    - "{{ apache_vhosts.prestashop}}"
+  when: item.is_demo
+
+- name: prestashop - create demo user
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.fr -P demo -L fr"
   with_items:
     - "{{ apache_vhosts.prestashop}}"
   when: item.is_demo
@@ -78,8 +98,14 @@
   command: "php /var/www/{{ item[0].name }}/admin-tools/console.php profile:access -p demo -t {{ item[1] }} -d"
   with_nested:
     - "{{ apache_vhosts.prestashop}}"
-    - [ 'AdminParentModules', 'AdminModules']
+    - [ 'AdminDashboard', 'AdminParentModules', 'AdminModules']
   when: item.0.is_demo
+
+- name: prestashop - set demo right for default modules (none)
+  command: "php /var/www/{{ item.name }}/admin-tools/console.php profile:access -p demo -t % -D -E -R"
+  with_items:
+    - "{{ apache_vhosts.prestashop}}"
+  when: item.is_demo
 
 - name: prestashop - set demo right for module (display, edit)
   command: "php /var/www/{{ item[0].name }}/admin-tools/console.php profile:access -p demo -t {{ item[1] }} -d -e"

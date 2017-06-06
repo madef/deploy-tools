@@ -29,13 +29,23 @@ apache_vhosts:
         password: test00test # has to be changed and crypt
         #  demo:
     - name: advancedrelatedproducts
-      domain: advancedrelatedproduct.prestashop.demo.madef.fr
+      domain: advancedrelatedproducts.prestashop.demo.madef.fr
       version: 1.6.1.13
       is_demo: yes
       modules:
         - advancedrelatedproducts
       mysql:
         user: ps_advancedrelatedproducts
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
+    - name: modalcrossselling
+      domain: modalcrossselling.prestashop.demo.madef.fr
+      version: 1.6.1.13
+      is_demo: yes
+      modules:
+        - modalcrossselling
+      mysql:
+        user: ps_modalcrossselling
         host: 91.121.68.131
         password: test00test # has to be changed and crypt
     - name: responsivemenu
@@ -46,6 +56,16 @@ apache_vhosts:
         - responsivemenu
       mysql:
         user: ps_responsivemenu
+        host: 91.121.68.131
+        password: test00test # has to be changed and crypt
+    - name: themecustomizer2
+      domain: themecustomizer2.prestashop.demo.madef.fr
+      version: 1.6.1.13
+      is_demo: yes
+      modules:
+        - themecustomizer2
+      mysql:
+        user: ps_themecustomizer2
         host: 91.121.68.131
         password: test00test # has to be changed and crypt
     - name: prestapicto

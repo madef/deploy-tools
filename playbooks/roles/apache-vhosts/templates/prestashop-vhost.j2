@@ -28,6 +28,10 @@
     </Directory>
     RewriteEngine on
 
+    SSLEngine on
+    SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+    SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+
     CustomLog /var/log/apache2/access.{{ item.domain }}.log combined
     ErrorLog /var/log/apache2/error.{{ item.domain }}.log
 </VirtualHost>

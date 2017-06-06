@@ -1,4 +1,8 @@
 ---
+- name: apache-vhosts - create factice certificate
+  # command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
+  command: openssl req -new -nodes -x509 -subj "/C=FR/L=Paris/O=FR/CN=madef.fr" -days 3650 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
+
 - name: apache-vhosts - remove default vhost
   file:
     path: /etc/apache2/sites-enabled/000-default.conf

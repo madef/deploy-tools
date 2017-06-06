@@ -23,6 +23,14 @@ databases:
     user: ps_prestapress
     password: test00test # Replace and crypt
     host: 37.187.55.118
+  - name: ps_modalcrossselling
+    user: ps_modalcrossselling
+    password: test00test # Replace and crypt
+    host: 37.187.55.118
+  - name: ps_themecustomizer2
+    user: ps_themecustomizer2
+    password: test00test # Replace and crypt
+    host: 37.187.55.118
   - name: ps_blog
     user: ps_blog
     password: test00test # Replace and crypt
