@@ -12,17 +12,15 @@
         line: '#bind-address = 127.0.0.1'
     - name: create users
       mysql_user:
-        host: "{{ item.host }}"
-        name: "{{ item.user }}"
-        password: "{{ item.password }}"
-        priv: "{{ item.name }}.*:ALL"
+        host: "{{ domain }}"
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_password }}"
+        priv: "{{ mysql_database }}.*:ALL"
         state: present
-      with_items: "{{ databases }}"
     - name: create databases
       mysql_db:
-        name: "{{ item.name }}"
+        name: "{{ mysql_database }}"
         state: present
-      with_items: "{{ databases }}"
     - name: restart mysql
       service:
         name: mysql

@@ -17,8 +17,10 @@
         - php7.0-xml
         - libapache2-mod-php7.0
   roles:
-    - apache-vhosts
-    - prestashop
+    - role: apache-vhosts
+      when: httpd == 'apache'
+    - role: prestashop
+      when: application == 'prestashop'
     #- role: letsencrypt
     #  letsencrypt_webroot_path: /var/www/responsivemenu
     #  letsencrypt_email: support@madef.fr

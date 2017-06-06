@@ -27,7 +27,6 @@ apache_vhosts:
         user: ps_advancedimporter
         host: 91.121.68.131
         password: test00test # has to be changed and crypt
-        #  demo:
     - name: advancedrelatedproducts
       domain: advancedrelatedproducts.prestashop.demo.madef.fr
       version: 1.6.1.13
