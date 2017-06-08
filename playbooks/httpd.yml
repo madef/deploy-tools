@@ -23,11 +23,11 @@
       when: httpd == 'apache'
     - role: prestashop
       when: application == 'prestashop'
-    #- role: letsencrypt
-    #  letsencrypt_webroot_path: /var/www/responsivemenu
-    #  letsencrypt_email: support@madef.fr
-    #  letsencrypt_cert_domains:
-    #    - responsivemenu.prestashop.demo.madef.fr
-    #  letsencrypt_renewal_command_args: '--renew-hook "systemctl restart apache2"'
+    - role: letsencrypt
+      letsencrypt_webroot_path: "/var/www/{{ name }}"
+      letsencrypt_email: support@madef.fr
+      letsencrypt_cert_domains:
+        - "{{ domain }}"
+      letsencrypt_renewal_command_args: '--renew-hook "systemctl restart apache2"'
 
 

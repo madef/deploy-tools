@@ -29,8 +29,10 @@
     RewriteEngine on
 
     SSLEngine on
-    SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
-    SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+    #SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+    SSLCertificateKeyFile /etc/letsencrypt/live/{{ domain }}/privkey.pem
+    #SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+    SSLCertificateFile /etc/letsencrypt/live/{{ domain }}/fullchain.pem
 
     CustomLog /var/log/apache2/access.{{ domain }}.log combined
     ErrorLog /var/log/apache2/error.{{ domain }}.log
