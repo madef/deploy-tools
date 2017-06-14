@@ -30,6 +30,12 @@ At the end of the file, there are variables that define how the application is d
 * name: name of your application (no space, no special chars)
 * domain: full domain of your website
 * modules: list of module you want imported for github
+* version: version of PrestaShop
 * mysql_database: name of the database
 * mysql_user: user for the mysql
+
+If it's not a demo prestashop these variables could help you:
+* application
+* create_root_dir: create the root dir of apache sites
+* is_demo: for prestashop site, if true the site is full re-installed.
 
