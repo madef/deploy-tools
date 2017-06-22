@@ -95,6 +95,12 @@
     - AdminModules
   when: is_demo
 
+- name: prestashop - set demo right (edit)
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -e"
+  with_items:
+    - AdminModules
+  when: is_demo
+
 - name: prestashop - set demo right for default modules (none)
   command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t % -D -E -R"
   when: is_demo
