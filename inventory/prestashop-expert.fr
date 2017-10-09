@@ -1,0 +1,19 @@
+[http]
+etno
+
+[sql]
+stereo
+
+[all:vars]
+httpd=apache
+application=prestashop
+source_host_ip=37.187.55.118
+name=prestashopexpert
+domain=prestashop-expert.fr
+create_root_dir=false
+is_demo=false
+version=1.6.1.13
+modules='["prestapress", "prestashopexpert"]'
+mysql_host=91.121.68.131
+mysql_database=ps_blog
+mysql_user=ps_blog
