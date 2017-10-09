@@ -24,6 +24,7 @@ $ for f in inventory/*.* ; do ansible-playbook -i $f playbooks/httpd.yml --vault
 
 # Create a new website/application
 
+## Inventory
 Each inventory is dedicated to one application. So to make new demo website, create a new inventory inspired from inventory/advancedimporter.prestashop.demo.madef.fr for example.
 
 At the end of the file, there are variables that define how the application is deployed. The variables that must be changed for a PrestaShop demo website are:
@@ -39,3 +40,9 @@ If it's not a demo prestashop these variables could help you:
 * create_root_dir: create the root dir of apache sites
 * is_demo: for prestashop site, if true the site is full re-installed.
 
+## Passwords
+
+If you create a new application, don't forget to define the passwords :
+```
+$ ansible-vault edit playbooks/vars/password.txt
+```
