@@ -1,3 +1,4 @@
 ---
 ansible_user: root
 ansible_host: 37.187.55.118 #etno.madef.fr
+alias: []

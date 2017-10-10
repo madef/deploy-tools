@@ -24,13 +24,29 @@
     accept_hostkey: yes
     force: yes
 
-- name: change owner
-  command: "chown -R www-data:www-data /var/www/{{ name }}"
-
 - name: get settings.inc.php exists
   stat:
     path: "/var/www/{{ name }}/config/settings.inc.php"
   register: file
+
+- name: prestashop - install requirements with composer
+  composer:
+    command: install
+    working_dir: "/var/www/{{ name }}/"
+  when: (is_demo == 'true' or file.stat.exists == False) and version.find('1.7') == 0
+  tags:
+    - prestashop_install
+  ignore_errors: yes
+
+- name: prestashop - change owner
+  command: "chown -R www-data:www-data /var/www/{{ name }}"
+
+- name: prestashop - set writing right
+  file:
+    path: "/var/www/{{ name }}/app/cache/"
+    state: directory
+    recurse: yes
+    mode: u+rwx
 
 - name: prestashop - install prestashop
   shell: |
