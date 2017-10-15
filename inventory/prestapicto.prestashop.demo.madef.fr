@@ -10,6 +10,7 @@ application=prestashop
 source_host_ip=37.187.55.118
 name=prestapicto
 domain=prestapicto.prestashop.demo.madef.fr
+alias=[]
 create_root_dir=false
 is_demo=true
 version=1.6.1.13

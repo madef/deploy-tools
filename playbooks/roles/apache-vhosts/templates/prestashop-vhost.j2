@@ -1,8 +1,10 @@
 <VirtualHost *:80>
     ServerName {{ domain }}
+
     {% for item in alias %}
-        ServerAlias {{ item }}
+    ServerAlias {{ item }}
     {% endfor %}
+
     DocumentRoot /var/www/{{ name }}
     <Directory /var/www/{{ name }}>
         AllowOverride All
@@ -20,6 +22,11 @@
 </VirtualHost>
 <VirtualHost *:443>
     ServerName {{ domain }}
+
+    {% for item in alias %}
+    ServerAlias {{ item }}
+    {% endfor %}
+
     DocumentRoot /var/www/{{ name }}
     <Directory /var/www/{{ name }}>
         AllowOverride All

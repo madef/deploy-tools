@@ -7,4 +7,5 @@ application=repo
 source_host_ip=37.187.55.118
 name=repo
 domain=repo.madef.fr
+alias=[]
 create_root_dir=true
