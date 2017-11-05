@@ -1,0 +1,13 @@
+[http]
+etno
+
+[all:vars]
+httpd=apache
+application=git
+source_host_ip=37.187.55.118
+name=miniflux
+domain=miniflux.deflotte.fr
+repository=git@github.com:miniflux/miniflux.git
+version=master
+alias=[]
+create_root_dir=false

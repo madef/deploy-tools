@@ -1,0 +1,11 @@
+---
+- name: prestashop - get sources
+  git:
+    repo: "{{ repository }}"
+    dest: "/var/www/{{ name }}"
+    version: "{{ version }}"
+    accept_hostkey: yes
+    force: yes
+  tags:
+    - sources
+
