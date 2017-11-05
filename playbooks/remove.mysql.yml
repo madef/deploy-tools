@@ -1,0 +1,20 @@
+---
+- hosts: sql
+  vars_files:
+    - vars/passwords.yml
+  tasks:
+    - name: remove user
+      mysql_user:
+        host: "{{ source_host_ip }}"
+        name: "{{ mysql_user }}"
+        password: "{{ passwords[name]['mysql'] }}"
+        priv: "{{ mysql_database }}.*:ALL"
+        state: absent
+    - name: remove database
+      mysql_db:
+        name: "{{ mysql_database }}"
+        state: absent
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted

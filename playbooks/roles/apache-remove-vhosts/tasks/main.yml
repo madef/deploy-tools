@@ -1,0 +1,25 @@
+---
+- name: apache-vhosts - Remove files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/etc/ssl/private/{{ domain }}.key"
+    - "/etc/ssl/certs/{{ domain }}.crt"
+    - "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+    - "/etc/letsencrypt/live/{{ domain }}"
+    - "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+    -  "/etc/letsencrypt/live/{{ domain }}/privkey.pem"
+    - "/etc/apache2/sites-available/{{ domain }}.conf"
+    - "/etc/apache2/sites-enabled/{{ domain }}.conf"
+    - "/var/www/{{ name }}"
+
+- name: apache-vhosts - be sure apache is started
+  service:
+    name: apache2
+    state: started
+
+- name: apache-vhosts - reload apache
+  service:
+    name: apache2
+    state: reloaded

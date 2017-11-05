@@ -1,0 +1,49 @@
+<VirtualHost *:80>
+    ServerName {{ domain }}
+
+    {% for item in alias %}
+    ServerAlias {{ item }}
+    {% endfor %}
+
+    DocumentRoot /var/www/{{ name }}
+    <Directory /var/www/{{ name }}>
+        AllowOverride All
+        Options Indexes FollowSymLinks MultiViews
+    </Directory>
+    <Directory /var/www/{{ name }}/install-dev>
+        Order allow,deny
+        Deny from all
+    </Directory>
+
+    RewriteEngine on
+
+    CustomLog /var/log/apache2/access.{{ domain }}.log combined
+    ErrorLog /var/log/apache2/error.{{ domain }}.log
+</VirtualHost>
+<VirtualHost *:443>
+    ServerName {{ domain }}
+
+    {% for item in alias %}
+    ServerAlias {{ item }}
+    {% endfor %}
+
+    DocumentRoot /var/www/{{ name }}
+    <Directory /var/www/{{ name }}>
+        AllowOverride All
+        Options Indexes FollowSymLinks MultiViews
+    </Directory>
+    <Directory /var/www/{{ name }}/install-dev>
+        Order allow,deny
+        Deny from all
+    </Directory>
+    RewriteEngine on
+
+    SSLEngine on
+    #SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+    SSLCertificateKeyFile /etc/letsencrypt/live/{{ domain }}/privkey.pem
+    #SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+    SSLCertificateFile /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+
+    CustomLog /var/log/apache2/access.{{ domain }}.log combined
+    ErrorLog /var/log/apache2/error.{{ domain }}.log
+</VirtualHost>

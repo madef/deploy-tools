@@ -1,0 +1,7 @@
+---
+- hosts: http
+  vars_files:
+    - vars/passwords.yml
+  roles:
+    - role: apache-remove-vhosts
+      when: httpd == 'apache'
