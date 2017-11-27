@@ -1,0 +1,44 @@
+<VirtualHost *:80>
+    ServerName {{ domain }}
+    {% for item in alias %}
+        ServerAlias {{ item }}
+    {% endfor %}
+    DocumentRoot /var/www/{{ name }}/web
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www/{{ name }}/web/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+    </Directory>
+</VirtualHost>
+<VirtualHost *:443>
+    ServerName {{ domain }}
+    {% for item in alias %}
+        ServerAlias {{ item }}
+    {% endfor %}
+    DocumentRoot /var/www/{{ name }}/web
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www/{{ name }}/web/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+    </Directory>
+</VirtualHost>

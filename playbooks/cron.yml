@@ -1,0 +1,9 @@
+---
+- hosts: http
+  tasks:
+    - name: Set cron
+      cron:
+        name: "{{ name }}.{{ item.key }}"
+        job: "{{ item.value }}"
+        user: www-data
+      with_dict: "{{ cronjobs }}"

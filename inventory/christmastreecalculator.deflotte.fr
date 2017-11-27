@@ -1,0 +1,14 @@
+[http]
+etno
+
+[all:vars]
+httpd=apache
+application=git
+source_host_ip=37.187.55.118
+name=christmastreecalculator
+domain=christmastreecalculator.deflotte.fr
+repository=git@github.com:madef/christmastreecalculator.git
+version=master
+writing_dirs=[]
+alias=[www.christmastreecalculator.deflotte.fr]
+create_root_dir=false

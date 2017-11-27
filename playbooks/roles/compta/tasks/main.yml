@@ -1,0 +1,18 @@
+---
+- name: compta - includ git role
+  include: ../../git/tasks/main.yml
+
+- name: compta - install requirements with composer
+  composer:
+    command: install
+    working_dir: "/var/www/{{ name }}/"
+  ignore_errors: yes
+
+- name: compta - create parameters file
+  template:
+    src: "parameters.yml.j2"
+    dest: "/var/www/{{ name }}/app/config/parameters.yml"
+
+- name: compta - change owner
+  command: "chown -R www-data:www-data /var/www/{{ name }}"
+

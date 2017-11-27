@@ -9,5 +9,7 @@ name=miniflux
 domain=miniflux.deflotte.fr
 repository=git@github.com:miniflux/miniflux.git
 version=master
+writing_dirs=['data']
 alias=[]
 create_root_dir=false
+cronjobs={'cronjob':'cd /var/www/miniflux && php cronjob.php > /dev/null 2>&1'}

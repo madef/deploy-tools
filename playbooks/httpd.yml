@@ -20,6 +20,9 @@
         - libapache2-mod-php7.0
         - php7.0-intl
         - php7.0-zip
+        - php7.0-sqlite3 # for miniflux
+        - php7.0-mbstring # for miniflux
+        - php7.0-mysql # for poetrie
         - composer
   roles:
     - role: apache-vhosts
@@ -28,6 +31,8 @@
       when: application == 'prestashop'
     - role: git
       when: application == 'git'
+    - role: compta
+      when: application == 'compta'
     - role: letsencrypt
       letsencrypt_webroot_path: "/var/www/{{ name }}"
       letsencrypt_email: support@madef.fr

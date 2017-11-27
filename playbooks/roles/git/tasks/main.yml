@@ -1,11 +1,20 @@
 ---
-- name: prestashop - get sources
+- name: git - get sources
   git:
     repo: "{{ repository }}"
     dest: "/var/www/{{ name }}"
     version: "{{ version }}"
     accept_hostkey: yes
     force: yes
-  tags:
-    - sources
+
+- name: git - change owner
+  command: "chown -R www-data:www-data /var/www/{{ name }}"
+
+- name: git - set writing right
+  file:
+    path: "/var/www/{{ name }}/{{ item }}"
+    state: directory
+    recurse: yes
+    mode: u+rwx
+  with_items: "{{ writing_dirs }}"
 
