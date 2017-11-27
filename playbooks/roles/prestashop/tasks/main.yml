@@ -62,6 +62,9 @@
 - name: prestashop - force ssl on all page
   command: "php /var/www/{{ name }}/admin-tools/console.php configuration:set -k PS_SSL_ENABLED_EVERYWHERE -v 1"
 
+- name: prestashop - force smarty compilation
+  command: "php /var/www/{{ name }}/admin-tools/console.php configuration:set -k PS_SMARTY_FORCE_COMPILE -v 1"
+
 - name: prestashop - install modules
   command: "php /var/www/{{ name }}/admin-tools/console.php module:install -m {{ item }}"
   with_items : "{{ modules }}"
