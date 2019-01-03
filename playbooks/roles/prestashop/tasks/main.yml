@@ -41,12 +41,19 @@
 - name: prestashop - change owner
   command: "chown -R www-data:www-data /var/www/{{ name }}"
 
-- name: prestashop - set writing right
+- name: prestashop - set writing right on cache
   file:
     path: "/var/www/{{ name }}/app/cache/"
     state: directory
     recurse: yes
-    mode: u+rwx
+    mode: a+rwx
+
+- name: prestashop - set writing right on cache
+  file:
+    path: "/var/www/{{ name }}/var/cache/"
+    state: directory
+    recurse: yes
+    mode: a+rwx
 
 - name: prestashop - install prestashop
   shell: |
@@ -78,11 +85,11 @@
   when: is_demo
 
 - name: prestashop - create demo user
-  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.com -P demo -L en"
+  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.com -P Logistician -L en"
   when: is_demo
 
 - name: prestashop - create demo user
-  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.fr -P demo -L fr"
+  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.fr -P Logistician -L fr"
   when: is_demo
 
 - name: prestashop - set demo right (display, add, remove, edit)
@@ -110,21 +117,44 @@
   command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -d"
   with_items:
     - AdminDashboard
-    - AdminParentModules
-    - AdminModules
+    - AdminModules%
+    - AdminParentModules%
   when: is_demo
+  ignore_errors: yes
 
 - name: prestashop - set demo right (edit)
   command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -e"
   with_items:
-    - AdminModules
+    - AdminModules%
+    - AdminParentModules%
   when: is_demo
+  ignore_errors: yes
 
 - name: prestashop - set demo right for default modules (none)
   command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t % -D -E -R"
   when: is_demo
+  ignore_errors: yes
 
 - name: prestashop - set demo right for module (display, edit)
   command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -d -e"
   with_items : "{{ modules }}"
   when: is_demo
+  ignore_errors: yes
+
+- name: prestashop - change owner
+  command: "chown -R www-data:www-data /var/www/{{ name }}"
+
+- name: prestashop - set writing right on cache
+  file:
+    path: "/var/www/{{ name }}/app/cache/"
+    state: directory
+    recurse: yes
+    mode: a+rwx
+
+- name: prestashop - set writing right on cache
+  file:
+    path: "/var/www/{{ name }}/var/cache/"
+    state: directory
+    recurse: yes
+    mode: a+rwx
+
