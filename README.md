@@ -1,6 +1,13 @@
 # deploy-tools
 Deployment ansible scripts
 
+# Installation
+
+Don't forget do get submodules
+```
+git submodule update --init --recursive
+```
+
 # Playbooks
 * initialize.yml: install minimal configuration for ansible.
 * mysql.yml: install mysql and create databases and right
