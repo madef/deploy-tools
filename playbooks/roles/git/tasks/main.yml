@@ -18,3 +18,5 @@
     mode: u+rwx
   with_items: "{{ writing_dirs }}"
 
+- name: prestashop - change owner
+  command: "chown -R www-data:www-data /var/www/{{ name }}"

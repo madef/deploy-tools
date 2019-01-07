@@ -7,14 +7,14 @@ stereo
 [all:vars]
 httpd=apache
 application=prestashop
-source_host_ip=37.187.55.118
+source_host_ip=etno
 name=responsivemenu
 domain=responsivemenu.prestashop.demo.madef.fr
 alias=[]
 create_root_dir=false
 is_demo=true
-version=1.6.1.13
-modules='["responsivemenu"]'
+version=1.7.5.0
+modules='["responsivemenu", "sublimecategories"]'
 mysql_host=91.121.68.131
 mysql_database=ps_responsivemenu
 mysql_user=ps_responsivemenu

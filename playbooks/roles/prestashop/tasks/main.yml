@@ -1,100 +1,25 @@
 ---
-- name: prestashop - get sources
-  git:
-    repo: https://github.com/PrestaShop/PrestaShop.git
-    dest: "/var/www/{{ name }}"
-    version: "{{ version }}"
-    accept_hostkey: yes
-    force: yes
-  tags:
-    - prestashop_sources
-
-- name: prestashop - get module sources
-  git:
-    repo: "git@github.com:madef/{{ item }}.git"
-    dest: "/var/www/{{ name }}/modules/{{ item }}"
-    accept_hostkey: yes
-    force: yes
-  with_items : "{{ modules }}"
-
-- name: prestashop - get admin-tools
-  git:
-    repo: git@github.com:madef/ps-admin-tools.git
-    dest: "/var/www/{{ name }}/admin-tools"
-    accept_hostkey: yes
-    force: yes
-
-- name: get settings.inc.php exists
-  stat:
-    path: "/var/www/{{ name }}/config/settings.inc.php"
-  register: file
-
-- name: prestashop - install requirements with composer
-  composer:
-    command: install
-    working_dir: "/var/www/{{ name }}/"
-  when: (is_demo == 'true' or file.stat.exists == False) and version.find('1.7') == 0
-  tags:
-    - prestashop_install
-  ignore_errors: yes
-
-- name: prestashop - change owner
-  command: "chown -R www-data:www-data /var/www/{{ name }}"
-
-- name: prestashop - set writing right on cache
-  file:
-    path: "/var/www/{{ name }}/app/cache/"
-    state: directory
-    recurse: yes
-    mode: a+rwx
-
-- name: prestashop - set writing right on cache
-  file:
-    path: "/var/www/{{ name }}/var/cache/"
-    state: directory
-    recurse: yes
-    mode: a+rwx
-
-- name: prestashop - install prestashop
-  shell: |
-    cd /var/www/{{ name }}
-    php install-dev/index_cli.php --domain={{ domain }} --db_server={{ mysql_host }} --db_name={{ mysql_database }} --db_user={{ mysql_user }} --db_password={{ passwords[name]['mysql'] }} --email=admin@madef.fr --password={{ passwords[name]['admin'] }} --firstname=admin --lastname=admin --newsletter=0
-  when: is_demo == 'true' or file.stat.exists == False
-  tags:
-    - prestashop_install
-
-- name: prestashop - enable ssl
-  command: "php /var/www/{{ name }}/admin-tools/console.php configuration:set -k PS_SSL_ENABLED -v 1"
-
-- name: prestashop - force ssl on all page
-  command: "php /var/www/{{ name }}/admin-tools/console.php configuration:set -k PS_SSL_ENABLED_EVERYWHERE -v 1"
-
-- name: prestashop - force smarty compilation
-  command: "php /var/www/{{ name }}/admin-tools/console.php configuration:set -k PS_SMARTY_FORCE_COMPILE -v 1"
-
-- name: prestashop - install modules
-  command: "php /var/www/{{ name }}/admin-tools/console.php module:install -m {{ item }}"
-  with_items : "{{ modules }}"
-
-- name: prestashop - upgrade modules
-  command: "php /var/www/{{ name }}/admin-tools/console.php module:upgrade -m {{ item }}"
-  with_items : "{{ modules }}"
-
 - name: prestashop - create demo profile
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:create -n demo"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:create -n demo2"
   when: is_demo
 
 - name: prestashop - create demo user
-  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.com -P Logistician -L en"
+  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo2@demo.com -P demo2 -L en"
   when: is_demo
 
 - name: prestashop - create demo user
-  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo@demo.fr -P Logistician -L fr"
+  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo2@demo.fr -P demo2 -L fr"
   when: is_demo
 
 - name: prestashop - set demo right (display, add, remove, edit)
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -d -a -e -r"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d -a -e -r"
   with_items:
+    - SELL
+    - IMPROVE
+    - CONFIGURE
+    - AdminWelcome
+    - AdminDashboard
+    - DEFAULT
     - AdminCatalog
     - AdminProducts
     - AdminCategories
@@ -107,23 +32,22 @@
   when: is_demo
 
 - name: prestashop - set demo right (display, add, remove, edit)
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -d -a -e -r"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d -a -e -r"
   with_items:
     - AdminAdvancedImporter%
   when: is_demo
   ignore_errors: yes
 
 - name: prestashop - set demo right (display)
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -d"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d"
   with_items:
-    - AdminDashboard
     - AdminModules%
     - AdminParentModules%
   when: is_demo
   ignore_errors: yes
 
 - name: prestashop - set demo right (edit)
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -e"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -e"
   with_items:
     - AdminModules%
     - AdminParentModules%
@@ -131,12 +55,12 @@
   ignore_errors: yes
 
 - name: prestashop - set demo right for default modules (none)
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t % -D -E -R"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t % -D -E -R"
   when: is_demo
   ignore_errors: yes
 
 - name: prestashop - set demo right for module (display, edit)
-  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo -t {{ item }} -d -e"
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d -e"
   with_items : "{{ modules }}"
   when: is_demo
   ignore_errors: yes

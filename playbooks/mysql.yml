@@ -3,10 +3,10 @@
   vars_files:
     - vars/passwords.yml
   tasks:
-    - name: install mysql
-      apt:
-        name: mariadb-server
-        update_cache: yes
+      #- name: install mysql
+      #apt:
+      #  name: mariadb-server
+      #  update_cache: yes
     - name: allow external connection
       lineinfile:
         dest: /etc/mysql/mariadb.conf.d/50-server.cnf
