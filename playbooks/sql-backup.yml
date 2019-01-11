@@ -1,0 +1,40 @@
+---
+- hosts: sql
+  tasks:
+    - name: Create backup dir
+      file:
+        path: "/var/backup/{{ name }}"
+        state: directory
+        recurse: yes
+        mode: 0755
+
+    - name: Backup database
+      cron:
+        name: "backup.{{ name }}.{{ item }}"
+        job: "mysqldump {{ mysql_database }} | gzip > /var/backup/{{ name }}/{{ item }}.gz"
+        minute: "0"
+        hour: "1"
+        day: "{{ item }}"
+        user: root
+      with_sequence: start=1 end=31 stride=1
+
+- hosts: http
+  vars_files:
+    - vars/passwords.yml
+  tasks:
+    - name: Create backup dir
+      file:
+        path: "/var/backup/{{ name }}"
+        state: directory
+        recurse: yes
+        mode: 0755
+
+    - name: Backup database
+      cron:
+        name: "backup.{{ name }}.{{ item }}"
+        job: "mysqldump -h {{ mysql_host }} -u {{ mysql_user }} -p{{ passwords[name]['mysql'] }} {{ mysql_database }} | gzip > /var/backup/{{ name }}/{{ item }}.gz"
+        minute: "0"
+        hour: "1"
+        day: "{{ item }}"
+        user: root
+      with_sequence: start=1 end=31 stride=1
