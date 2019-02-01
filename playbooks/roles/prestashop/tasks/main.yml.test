@@ -1,0 +1,90 @@
+---
+- name: prestashop - get admin-tools
+  git:
+    repo: git@github.com:madef/ps-admin-tools.git
+    dest: "/var/www/{{ name }}/admin-tools"
+    accept_hostkey: yes
+    force: yes
+- name: prestashop - create demo profile
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:create -n demo2"
+  when: is_demo
+
+- name: prestashop - create demo user
+  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo2@demo.com -P demo2 -L en"
+  when: is_demo
+
+- name: prestashop - create demo user
+  command: "php /var/www/{{ name }}/admin-tools/console.php employee:create -l demo -f demo -p demodemo -e demo2@demo.fr -P demo2 -L fr"
+  when: is_demo
+
+- name: prestashop - remove all right for default modules (none)
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t % -D -A -E -R"
+  when: is_demo
+  ignore_errors: yes
+
+- name: prestashop - set demo display right to all but configure
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d -X"
+  with_items:
+    - IMPROVE
+    - AdminWelcome
+    - AdminDashboard
+  when: is_demo
+
+- name: prestashop - set demo add right to SELL and DEFAULT
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -a -d -e -r -X"
+  with_items:
+    - SELL
+    - DEFAULT
+  when: is_demo
+
+- name: prestashop - set demo edit right to SELL and DEFAULT
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -e  -X"
+  with_items:
+    - SELL
+    - DEFAULT
+  when: is_demo
+
+- name: prestashop - set demo remove right to SELL and DEFAULT
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -r  -X"
+  with_items:
+    - SELL
+    - DEFAULT
+  when: is_demo
+
+- name: prestashop - add add/edit right for module of the demo profil
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d -a -e -X"
+  with_items:
+    - AdminParentModulesSf
+  when: is_demo
+
+- name: prestashop - remove display of AdminParentModulesCatalog, AdminModulesNotifications, AdminModulesUpdates for demo profile 
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -D -A -E -X"
+  with_items:
+    - AdminParentModulesCatalog
+    - AdminModulesNotifications
+    - AdminModulesUpdates
+  when: is_demo
+
+- name: prestashop - set demo right for module (display, edit)
+  command: "php /var/www/{{ name }}/admin-tools/console.php profile:access -p demo2 -t {{ item }} -d -e"
+  with_items : "{{ modules }}"
+  when: is_demo
+  ignore_errors: yes
+
+- name: prestashop - change owner
+  command: "chown -R www-data:www-data /var/www/{{ name }}"
+
+- name: prestashop - set writing right on cache
+  file:
+    path: "/var/www/{{ name }}/app/cache/"
+    state: directory
+    recurse: yes
+    mode: a+rwx
+
+- name: prestashop - set writing right on cache
+  file:
+    path: "/var/www/{{ name }}/var/cache/"
+    state: directory
+    recurse: yes
+    mode: a+rwx
+
