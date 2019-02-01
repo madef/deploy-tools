@@ -1,0 +1,17 @@
+[http]
+etno
+
+[sql]
+stereo
+
+[all:vars]
+httpd=apache
+application=git
+source_host_ip=37.187.55.118
+name=labierequiflotte-sensor
+domain=sensor.labierequiflotte.fr
+repository=git@github.com:madef/tempsensor.git
+version=master
+writing_dirs=[]
+alias=[]
+create_root_dir=false

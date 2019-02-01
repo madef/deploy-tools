@@ -33,11 +33,11 @@
       when: application == 'git'
     - role: compta
       when: application == 'compta'
-    - role: letsencrypt
-      letsencrypt_webroot_path: "/var/www/{{ name }}"
-      letsencrypt_email: support@madef.fr
-      letsencrypt_cert_domains:
-        - "{{ domain }}"
-      letsencrypt_renewal_command_args: '--renew-hook "systemctl restart apache2"'
+      #- role: letsencrypt
+      #letsencrypt_webroot_path: "/var/www/{{ name }}"
+      #letsencrypt_email: support@madef.fr
+      #letsencrypt_cert_domains:
+      #  - "{{ domain }}"
+      #letsencrypt_renewal_command_args: '--renew-hook "systemctl restart apache2"'
 
 
