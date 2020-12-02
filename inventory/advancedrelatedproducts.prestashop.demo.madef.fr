@@ -10,10 +10,10 @@ application=prestashop
 source_host_ip=37.187.55.118
 name=advancedrelatedproducts
 domain=advancedrelatedproducts.prestashop.demo.madef.fr
-alias: []
+alias=[]
 create_root_dir=false
 is_demo=true
-version=1.6.1.13
+version=1.7.5.0
 modules='["advancedrelatedproducts"]'
 mysql_host=91.121.68.131
 mysql_database=ps_advancedrelatedproducts

@@ -5,5 +5,5 @@
       cron:
         name: "{{ name }}.{{ item.key }}"
         job: "{{ item.value }}"
-        user: www-data
+        user: root
       with_dict: "{{ cronjobs }}"

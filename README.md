@@ -26,7 +26,7 @@ For the ssh connection no password are required, you need to configure manually 
 One inventory is declared per domain/application. To execute a playbook for all applications, use this command:
 ```
 $ echo 'Vault password' > vault.txt
-$ for f in inventory/*.* ; do ansible-playbook -i $f playbooks/httpd.yml --vault-pass=vault.txt; done
+$ for f in inventory/*.* ; do ansible-playbook -i $f playbooks/httpd.yml --vault-password-file=vault.txt; done
 ```
 
 # Create a new website/application

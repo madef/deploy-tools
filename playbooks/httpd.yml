@@ -24,7 +24,18 @@
         - php7.2-mbstring # for miniflux
         - php7.2-mysql # for poetrie
         - composer
+        - ruby-dev
+        - rubygems-integration
+        - zlibc
+        - ruby-zip
+        - zlib1g-dev
+    - name: Install gimli
+      gem:
+        name: gimli
+        state: present
   roles:
+    - role: git
+      when: application == 'adminprestashopxmlimporter'
     - role: apache-vhosts
       when: httpd == 'apache'
     - role: prestashop

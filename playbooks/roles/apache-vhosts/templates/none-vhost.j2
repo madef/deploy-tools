@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+    ServerName {{ domain }}
+    {% for item in alias %}
+        ServerAlias {{ item }}
+    {% endfor %}
+    DocumentRoot /var/www/{{ name }}
+    <Directory /var/www/{{ name }}>
+        AllowOverride All
+        Options Indexes FollowSymLinks MultiViews
+    </Directory>
+
+    RewriteEngine on
+
+    CustomLog /var/log/apache2/access.{{ domain }}.log combined
+    ErrorLog /var/log/apache2/error.{{ domain }}.log
+</VirtualHost>
+<VirtualHost *:443>
+    ServerName {{ domain }}
+    DocumentRoot /var/www/{{ name }}
+    <Directory /var/www/{{ name }}>
+        AllowOverride All
+        Options Indexes FollowSymLinks MultiViews
+    </Directory>
+    RewriteEngine on
+
+    CustomLog /var/log/apache2/access.{{ domain }}.log combined
+    ErrorLog /var/log/apache2/error.{{ domain }}.log
+</VirtualHost>

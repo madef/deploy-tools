@@ -1,0 +1,21 @@
+[http]
+etno
+
+[sql]
+stereo
+
+[all:vars]
+httpd=apache
+application=adminprestashopxmlimporter
+source_host_ip=37.187.55.118
+name=adminprestashopxmlimporter
+domain=bo.prestashopxmlimporter.madef.fr
+repository=git@github.com:madef/back-advanced-importer.git
+version=master
+writing_dirs=[]
+alias=[]
+create_root_dir=false
+mysql_host=91.121.68.131
+mysql_database=prestashopxmlimporter
+mysql_user=prestashopxmlimporter
+cronjobs={'cronjob':'php /var/www/adminprestashopxmlimporter/script/cron.php >> /var/log/apache2/advancedimporter.cron.local.log'}
