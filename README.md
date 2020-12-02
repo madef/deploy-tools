@@ -29,6 +29,11 @@ $ echo 'Vault password' > vault.txt
 $ for f in inventory/*.* ; do ansible-playbook -i $f playbooks/httpd.yml --vault-password-file=vault.txt; done
 ```
 
+Deploy prestashop demo store
+```
+find inventory -name '*prestashop.demo.madef.fr' -type f -exec ansible-playbook -i {} playbooks/httpd.yml --vault-password-file=vault.txt \;
+```
+
 # Create a new website/application
 
 ## Inventory
