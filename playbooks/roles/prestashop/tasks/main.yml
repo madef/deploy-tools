@@ -41,6 +41,11 @@
 - name: prestashop - change owner
   command: "chown -R www-data:www-data /var/www/{{ name }}"
 
+- name: prestashop - Remove cache directory
+  file:
+    path: "/var/www/{{ name }}/app/cache/"
+    state: absent
+
 - name: prestashop - set writing right on cache
   file:
     path: "/var/www/{{ name }}/app/cache/"
@@ -72,9 +77,15 @@
 - name: prestashop - force smarty compilation
   command: "php /var/www/{{ name }}/admin-tools/console.php configuration:set -k PS_SMARTY_FORCE_COMPILE -v 1"
 
-- name: prestashop - install modules
+- name: prestashop - install modules 1.7
+  command: "php /var/www/{{ name }}/bin/console prestashop:module install {{ item }}"
+  with_items : "{{ modules }}"
+  when: (is_demo == 'true' or file.stat.exists == False) and version.find('1.7') == 0
+
+- name: prestashop - install modules 1.6
   command: "php /var/www/{{ name }}/admin-tools/console.php module:install -m {{ item }}"
   with_items : "{{ modules }}"
+  when: (is_demo == 'true' or file.stat.exists == False) and version.find('1.6') == 0
 
 - name: prestashop - upgrade modules
   command: "php /var/www/{{ name }}/admin-tools/console.php module:upgrade -m {{ item }}"
