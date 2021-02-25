@@ -17,6 +17,10 @@
 
     RewriteEngine on
 
+    <If "%{HTTP_USER_AGENT} !~ /(iPhone; CPU iPhone OS 1[0-3]|iPad; CPU OS 1[0-2]|iPod touch; CPU iPhone OS 1[0-3]|Macintosh; Intel Mac OS X.*Version\x2F1[0-3].*Safari|Macintosh;.*Mac OS X 10_14.* AppleWebKit.*Version\x2F1[0-3].*Safar    i)/i">
+        Header edit Set-Cookie ^(.*)$ $1;SameSite=None;Secure
+    </If>
+
     CustomLog /var/log/apache2/access.{{ domain }}.log combined
     ErrorLog /var/log/apache2/error.{{ domain }}.log
 </VirtualHost>
@@ -43,6 +47,10 @@
     SSLCertificateKeyFile /etc/letsencrypt/live/{{ domain }}/privkey.pem
     #SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
     SSLCertificateFile /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+
+    <If "%{HTTP_USER_AGENT} !~ /(iPhone; CPU iPhone OS 1[0-3]|iPad; CPU OS 1[0-2]|iPod touch; CPU iPhone OS 1[0-3]|Macintosh; Intel Mac OS X.*Version\x2F1[0-3].*Safari|Macintosh;.*Mac OS X 10_14.* AppleWebKit.*Version\x2F1[0-3].*Safar    i)/i">
+        Header edit Set-Cookie ^(.*)$ $1;SameSite=None;Secure
+    </If>
 
     CustomLog /var/log/apache2/access.{{ domain }}.log combined
     ErrorLog /var/log/apache2/error.{{ domain }}.log
