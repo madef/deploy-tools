@@ -4,7 +4,7 @@ etno
 [all:vars]
 httpd=apache
 application=repo
-source_host_ip=37.187.55.118
+source_host_ip=151.80.60.89
 name=repo
 domain=repo.madef.fr
 alias=[]

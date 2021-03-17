@@ -7,7 +7,7 @@ stereo
 [all:vars]
 httpd=apache
 application=git
-source_host_ip=37.187.55.118
+source_host_ip=151.80.60.89
 name=alexandredelicedusudouest
 domain=alexandredelicedusudouest.com
 repository=git@github.com:madef/alexandredelicedusudouest.git

@@ -4,7 +4,7 @@ etno
 [all:vars]
 httpd=apache
 application=none
-source_host_ip=37.187.55.118
+source_host_ip=151.80.60.89
 name=doc-v2-prestashopxmlimporter
 domain=prestashopxmlimporter.madef.fr
 create_root_dir=true

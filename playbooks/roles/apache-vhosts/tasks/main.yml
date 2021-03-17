@@ -1,14 +1,14 @@
 ---
 - name: apache-vhosts - php-configuration - display_errors
   lineinfile:
-    path: /etc/php/7.2/apache2/php.ini
+    path: /etc/php/7.3/apache2/php.ini
     regexp: '^display_errors'
     state: present
     line: display_errors=off
 
 - name: apache-vhosts - php-configuration - error_reporting
   lineinfile:
-    path: /etc/php/7.2/apache2/php.ini
+    path: /etc/php/7.3/apache2/php.ini
     regexp: '^error_reporting'
     state: present
     line: error_reporting=E_ALL & ~E_DEPRECATED & ~E_STRICT

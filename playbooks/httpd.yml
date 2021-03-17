@@ -9,30 +9,40 @@
         update_cache: yes
     - name: install php
       apt:
+        name: [
+          php7.3,
+          php7.3-cli,
+          php7.3-curl,
+          php7.3-gd,
+          php7.3-mysql,
+          php7.3-xml,
+          libapache2-mod-php7.3,
+          php7.3-intl,
+          php7.3-zip,
+          php7.3-sqlite3, # for miniflux
+          php7.3-mbstring, # for miniflux
+          php7.3-mysql, # for poetrie
+          composer,
+          ruby-dev,
+          rubygems-integration,
+          zlibc,
+          ruby-zip,
+          zlib1g-dev
+        ]
+        #- name: Install gimli
+      #gem:
+        #name: gimli
+          #state: present
+    - name: Enable Apache mod
+      apache2_module:
+        state: present
         name: "{{ item }}"
       with_items:
-        - php7.2
-        - php7.2-cli
-        - php7.2-curl
-        - php7.2-gd
-        - php7.2-mysql
-        - php7.2-xml
-        - libapache2-mod-php7.2
-        - php7.2-intl
-        - php7.2-zip
-        - php7.2-sqlite3 # for miniflux
-        - php7.2-mbstring # for miniflux
-        - php7.2-mysql # for poetrie
-        - composer
-        - ruby-dev
-        - rubygems-integration
-        - zlibc
-        - ruby-zip
-        - zlib1g-dev
-    - name: Install gimli
-      gem:
-        name: gimli
-        state: present
+        - rewrite
+        - headers
+        - ssl
+        - session
+        - socache_shmcb
   roles:
     - role: git
       when: application == 'adminprestashopxmlimporter'
